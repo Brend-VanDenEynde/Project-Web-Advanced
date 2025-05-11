@@ -1,7 +1,7 @@
 import Router from './router.js';
 import './style.css';
 
-// Define de routes
+// ROUTES
 const routes = {
   '/': renderHome,
   '/404': renderNotFound,
@@ -9,9 +9,7 @@ const routes = {
 
 const router = new Router(routes);
 
-// === UI COMPONENTS ===
-
-// Dark mode toggle
+// DARK MODE
 function setupDarkModeToggle() {
   const toggleBtn = document.getElementById('dark-mode-toggle');
   const isDark = localStorage.getItem('theme') === 'dark';
@@ -33,7 +31,10 @@ function setupDarkModeToggle() {
   });
 }
 
-// === ROUTES ===
+
+
+// renderpagina's functies
+
 function renderHome(container) {
   container.innerHTML = `
     <div class="card">
@@ -43,7 +44,7 @@ function renderHome(container) {
         <button class="theme-btn app-btn" data-theme="sport">⚽ Sport</button>
       </div>
 
-      <div id="difficulty-section" class="hidden">
+      <div id="difficulty-section">
         <h2>Kies moeilijkheidsgraad</h2>
         <button class="diff-btn app-btn">Easy</button>
         <button class="diff-btn app-btn">Medium</button>
@@ -64,12 +65,20 @@ function renderHome(container) {
   });
 }
 
-
 function renderNotFound(container) {
-  container.innerHTML = `<h1>404 - Pagina niet gevonden</h1>`;
+  container.innerHTML = `
+    <div class="card">
+      <h1>404 - Pagina niet gevonden</h1>
+      <a href="#/">Terug naar home</a>
+    </div>
+  `;
+
+  setupDarkModeToggle();
 }
 
-// === HELPER FUNCTIONS ===
+
+
+// Zaken voor de knoppen (Komende quizzen, thema's, moeilijkheidsgraad aan gelinkt)
 
 function setupThemeButtons() {
   const buttons = document.querySelectorAll('.theme-btn');
@@ -77,7 +86,12 @@ function setupThemeButtons() {
 
   buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
-      difficultySection.classList.remove('hidden');
+      difficultySection.classList.add('visible');
     });
   });
 }
+
+// initialiseer de router
+window.addEventListener('popstate', () => router.resolve());
+// footer jaartal
+document.getElementById('year').textContent = new Date().getFullYear();

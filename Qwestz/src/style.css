@@ -1,12 +1,22 @@
 body {
     font-family: sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0;
     transition: background 0.3s, color 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#app {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    flex-grow: 1;
+    width: 100%;
+    text-align: center;
 }
 
 .dark {
@@ -14,7 +24,7 @@ body {
     color: #eee;
 }
 
-/* Algemene knopstijl */
+/* Algemene stijl */
 .app-btn {
     margin: 10px;
     padding: 12px 24px;
@@ -27,7 +37,6 @@ body {
     transition: background 0.3s, color 0.3s;
 }
 
-/* Donkere modus stijl voor knoppen */
 body.dark .app-btn {
     background: #333;
     color: #f0f0f0;
@@ -41,11 +50,12 @@ body.dark .app-btn {
     cursor: pointer;
 }
 
-/* Dark mode toggle knop */
+/* Dark mode  knop */
 #dark-mode-toggle {
     position: fixed;
     bottom: 10px;
     left: 10px;
+    z-index: 20;
     padding: 10px;
     background: #eee;
     color: #111;
@@ -60,11 +70,7 @@ body.dark .app-btn {
     color: #fff;
 }
 
-.hidden {
-    display: none;
-}
-
-/* Centrale kaart (card) */
+/* card */
 .card {
     background: white;
     padding: 30px;
@@ -72,11 +78,48 @@ body.dark .app-btn {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 90%;
-    text-align: center;
     transition: background 0.3s, color 0.3s;
 }
 
 body.dark .card {
     background: #1e1e1e;
     color: white;
+}
+
+/* footer */
+.footer {
+    background-color: #f0f0f0;
+    color: #111;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    width: 100%;
+    z-index: 10;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dark mode footer */
+body.dark .footer {
+    background-color: #222;
+    color: #f0f0f0;
+}
+
+html,
+body {
+    height: 100%;
+    overflow-x: hidden;
+    margin-bottom: 0;
+}
+
+/* Animatie voor difficulty-section (Met een AI-Bot gedaan) */
+#difficulty-section {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+}
+
+#difficulty-section.visible {
+    max-height: 200px;
+    opacity: 1;
 }
