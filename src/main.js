@@ -71,6 +71,7 @@ function renderNotFound(container) {
       <h1>404 - Pagina niet gevonden</h1>
       <a href="#/">Terug naar home</a>
     </div>
+    <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
   `;
 
   setupDarkModeToggle();
