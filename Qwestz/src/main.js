@@ -86,7 +86,19 @@ function setupThemeButtons() {
 
   buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
+      const selectedTheme = btn.dataset.theme;
+      difficultySection.dataset.theme = selectedTheme;
       difficultySection.classList.add('visible');
+    });
+  });
+
+  document.querySelectorAll('.diff-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const difficulty = btn.textContent.toLowerCase();
+      const theme = document.getElementById('difficulty-section').dataset.theme;
+      localStorage.setItem('selectedTheme', theme);
+      localStorage.setItem('selectedDifficulty', difficulty);
+      console.log(`Thema: ${theme}, Moeilijkheidsgraad: ${difficulty}`);
     });
   });
 }
