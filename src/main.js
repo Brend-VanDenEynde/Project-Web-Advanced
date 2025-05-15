@@ -1,15 +1,18 @@
+// importeer van de router
 import Router from './router.js';
+// importeer de CSS
 import './style.css';
 
-// ROUTES
+// routes 
 const routes = {
   '/': renderHome,
+  '/quiz': renderQuiz,
   '/404': renderNotFound,
 };
 
 const router = new Router(routes);
 
-// DARK MODE
+// Zaken voor Darkmode
 function setupDarkModeToggle() {
   const toggleBtn = document.getElementById('dark-mode-toggle');
   const isDark = localStorage.getItem('theme') === 'dark';
@@ -30,11 +33,10 @@ function setupDarkModeToggle() {
     }
   });
 }
-
-
-
 // renderpagina's functies
 
+
+// render van de homepagina
 function renderHome(container) {
   container.innerHTML = `
     <div class="card">
@@ -65,6 +67,26 @@ function renderHome(container) {
   });
 }
 
+// render van de quizpagina
+
+
+async function renderQuiz(container) {
+  document.body.classList.add('quiz');
+  const theme = localStorage.getItem('selectedTheme');
+  const difficulty = localStorage.getItem('selectedDifficulty');
+
+  container.innerHTML = `
+    <div id="quiz" class="card">
+      <h2>Quiz wordt geladen...</h2>
+    </div>
+    <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
+  `;
+
+  setupDarkModeToggle();
+}
+
+
+// render van de notfound pagina
 function renderNotFound(container) {
   container.innerHTML = `
     <div class="card">
@@ -80,7 +102,6 @@ function renderNotFound(container) {
 
 
 // Zaken voor de knoppen (Komende quizzen, thema's, moeilijkheidsgraad aan gelinkt)
-
 function setupThemeButtons() {
   const buttons = document.querySelectorAll('.theme-btn');
   const difficultySection = document.getElementById('difficulty-section');
@@ -100,6 +121,7 @@ function setupThemeButtons() {
       localStorage.setItem('selectedTheme', theme);
       localStorage.setItem('selectedDifficulty', difficulty);
       console.log(`Thema: ${theme}, Moeilijkheidsgraad: ${difficulty}`);
+      window.location.hash = '#/quiz';
     });
   });
 }
