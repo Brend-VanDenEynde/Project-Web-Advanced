@@ -38,6 +38,8 @@ function setupDarkModeToggle() {
 
 // render van de homepagina
 function renderHome(container) {
+  document.body.classList.remove('quiz');
+
   container.innerHTML = `
     <div class="card">
       <h1>Kies een thema</h1>
@@ -74,17 +76,103 @@ async function renderQuiz(container) {
   document.body.classList.add('quiz');
   const theme = localStorage.getItem('selectedTheme');
   const difficulty = localStorage.getItem('selectedDifficulty');
+  // thema van de quiz het id geven
+  let category = null;
+  if (theme === 'computer') {
+    category = 18;
+  }
+  else if (theme == 'sport') {
+    category = 21;
+  }
 
-  container.innerHTML = `
-    <div id="quiz" class="card">
-      <h2>Quiz wordt geladen...</h2>
-    </div>
-    <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
-  `;
+  if (category == null || difficulty == null) {
+    container.innerHTML = `
+      <div class="card">
+        <h1>Geen thema of moeilijkheidsgraad gekozen</h1>
+        <a href="#/">Terug naar home</a>
+      </div>
+      <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
+    `;
+    setupDarkModeToggle();
+  } else {
 
-  setupDarkModeToggle();
+    const url = `https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`;
+
+    container.innerHTML = `
+      <div id="quiz" class="card">
+        <h2>Quiz wordt geladen...</h2>
+      </div>
+      <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
+    `;
+
+    setupDarkModeToggle();
+
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.results.length == 0) {
+        container.innerHTML = `<div class="card"><p>Geen vragen gevonden.</p></div>`;
+        return;
+      }
+
+      startQuiz(container, data.results);
+    } catch (error) {
+      container.innerHTML = `<div class="card"><p>Fout bij laden van quizvragen.</p></div>`;
+    }
+  }
 }
 
+
+
+function startQuiz(container, questions) {
+  let current = 0;
+  let score = 0;
+
+  function renderQuestion() {
+    const q = questions[current];
+    const answers = [...q.incorrect_answers];
+    const correct = q.correct_answer;
+    answers.splice(Math.floor(Math.random() * (answers.length + 1)), 0, correct);
+
+    container.innerHTML = `
+      <div class="card">
+        <h2>Vraag ${current + 1} van ${questions.length}</h2>
+        <p>${decodeHTML(q.question)}</p>
+        <div class="answers">
+          ${answers.map(ans => `<button class="app-btn answer">${decodeHTML(ans)}</button>`).join('')}
+        </div>
+      </div>
+      <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
+    `;
+
+    setupDarkModeToggle();
+
+    document.querySelectorAll('.answer').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const chosen = btn.textContent;
+        if (chosen == decodeHTML(correct)) score++;
+
+        current++;
+        current < questions.length ? renderQuestion() : showResult();
+      });
+    });
+  }
+
+  function showResult() {
+    container.innerHTML = `
+      <div class="card">
+        <h2>Quiz voltooid!</h2>
+        <p>Je score: ${score} / ${questions.length}</p>
+        <button class="app-btn" onclick="window.location.hash = '#'">Terug naar start</button>
+      </div>
+      <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
+    `;
+    setupDarkModeToggle();
+  }
+
+  renderQuestion();
+}
 
 // render van de notfound pagina
 function renderNotFound(container) {
@@ -99,7 +187,11 @@ function renderNotFound(container) {
   setupDarkModeToggle();
 }
 
-
+function decodeHTML(html) {
+  const txt = document.createElement('textarea');
+  txt.innerHTML = html;
+  return txt.value;
+}
 
 // Zaken voor de knoppen (Komende quizzen, thema's, moeilijkheidsgraad aan gelinkt)
 function setupThemeButtons() {

@@ -123,3 +123,24 @@ body {
     max-height: 200px;
     opacity: 1;
 }
+
+
+/* alles voor de quiz paginq */
+body.quiz .card .answers {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+body.quiz .card .answer {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+body.quiz .card .app-btn {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
