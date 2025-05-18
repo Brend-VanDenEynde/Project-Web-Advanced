@@ -50,6 +50,17 @@ body.dark .app-btn {
     cursor: pointer;
 }
 
+
+.theme-btn.selected {
+    transform: scale(1.1);
+    background-color: #d0eaff;
+}
+
+body.dark .theme-btn.selected {
+    background-color: #2a4b66;
+}
+
+
 /* Dark mode  knop */
 #dark-mode-toggle {
     position: fixed;
@@ -143,4 +154,24 @@ body.quiz .card .app-btn {
     width: 100%;
     margin: 10px 0;
     box-sizing: border-box;
+}
+
+/* css voor de tabel van de quiz history */
+.card table {
+    width: 100%;
+    font-size: 14px;
+}
+
+.card th,
+.card td {
+    padding: 8px 12px;
+    text-align: left;
+}
+
+body.dark .card table {
+    color: #f0f0f0;
+}
+
+body.dark .card tr {
+    border-color: #444;
 }

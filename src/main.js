@@ -7,6 +7,7 @@ import './style.css';
 const routes = {
   '/': renderHome,
   '/quiz': renderQuiz,
+  '/history': renderHistory,
   '/404': renderNotFound,
 };
 
@@ -65,7 +66,7 @@ function renderHome(container) {
   setupDarkModeToggle();
 
   document.getElementById('history-btn').addEventListener('click', () => {
-    alert('Vorige quizzen komen hier.');
+    window.location.hash = '#/history';
   });
 }
 
@@ -160,6 +161,17 @@ function startQuiz(container, questions) {
   }
 
   function showResult() {
+    // Huidige resultaat opslaan
+    const results = JSON.parse(localStorage.getItem('quizHistory')) || [];
+    results.push({
+      theme: localStorage.getItem('selectedTheme'),
+      difficulty: localStorage.getItem('selectedDifficulty'),
+      score: score,
+      total: questions.length,
+      date: new Date().toLocaleString()
+    });
+    localStorage.setItem('quizHistory', JSON.stringify(results));
+
     container.innerHTML = `
       <div class="card">
         <h2>Quiz voltooid!</h2>
@@ -187,6 +199,54 @@ function renderNotFound(container) {
   setupDarkModeToggle();
 }
 
+function renderHistory(container) {
+  document.body.classList.remove('quiz');
+  const results = JSON.parse(localStorage.getItem('quizHistory')) || [];
+
+  if (results.length === 0) {
+    container.innerHTML = `
+      <div class="card">
+        <h2>Geen eerdere quizzen gevonden.</h2>
+        <a href="#/">Terug naar home</a>
+      </div>
+      <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
+    `;
+  } else {
+    container.innerHTML = `
+      <div class="card">
+        <h2>Vorige quizresultaten</h2>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+          <thead>
+            <tr style="text-align: left; border-bottom: 2px solid #ccc;">
+              <th>Datum</th>
+              <th>Thema</th>
+              <th>Moeilijkheid</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${results.map(r => `
+              <tr style="border-bottom: 1px solid #ddd;">
+                <td>${r.date}</td>
+                <td>${r.theme}</td>
+                <td>${r.difficulty}</td>
+                <td>${r.score} / ${r.total}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+        <button class="app-btn" onclick="window.location.hash = '#/'">Terug naar home</button>
+      </div>
+      <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
+    `;
+  }
+
+  setupDarkModeToggle();
+}
+
+
+
+
 function decodeHTML(html) {
   const txt = document.createElement('textarea');
   txt.innerHTML = html;
@@ -201,6 +261,14 @@ function setupThemeButtons() {
   buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
       const selectedTheme = btn.dataset.theme;
+
+      // Verwijder 'selected' van alle knoppen
+      buttons.forEach(b => b.classList.remove('selected'));
+
+      // Voeg toe aan de geklikte knop
+      btn.classList.add('selected');
+
+      // Toon difficulty-sectie
       difficultySection.dataset.theme = selectedTheme;
       difficultySection.classList.add('visible');
     });
@@ -217,6 +285,7 @@ function setupThemeButtons() {
     });
   });
 }
+
 
 // initialiseer de router
 window.addEventListener('popstate', () => router.resolve());
