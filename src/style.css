@@ -1,3 +1,4 @@
+/* Algemene stijl */
 body {
     font-family: sans-serif;
     margin: 0;
@@ -24,7 +25,6 @@ body {
     color: #eee;
 }
 
-/* Algemene stijl */
 .app-btn {
     margin: 10px;
     padding: 12px 24px;
@@ -179,4 +179,74 @@ body.dark .card tr {
 #clearHistory {
     background-color: red;
     color: white;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .card {
+        padding: 20px;
+        width: 95%;
+        max-width: 95%;
+    }
+
+    .app-btn,
+    .theme-btn,
+    .diff-btn,
+    #history-btn {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    h1,
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 0.9rem;
+    }
+
+    .card table {
+        font-size: 12px;
+    }
+
+    .card th,
+    .card td {
+        padding: 6px 8px;
+    }
+}
+
+
+/* Extra kleine schermen */
+@media screen and (max-width: 480px) {
+    .card {
+        padding: 15px;
+    }
+
+    body.quiz .card .answers {
+        gap: 8px;
+    }
+
+    .app-btn,
+    .theme-btn,
+    .diff-btn,
+    #history-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+        margin: 6px;
+    }
+
+    #dark-mode-toggle {
+        font-size: 16px;
+    }
+
+    .footer {
+        font-size: 12px;
+        padding: 8px 0;
+    }
+
+    .card table {
+        display: block;
+        overflow-x: auto;
+    }
 }
