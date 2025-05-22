@@ -141,19 +141,31 @@ npm run preview
 
 ## 📱 Screenshots
 
+![Homepage zonder keuze](./screenshots/screenshot-homepage.png)
+
+![Homepage met keuze](./screenshots/screenshot-homepage-difficulty.png)
+
+![In een quiz](./screenshots/screenshot-inquiz.png)
+
+![Quiz resultaat](./screenshots/screenshot-resultaat.png)
+
+![Quiz geschiedenis](./screenshots/screenshot-quizgeschiedenis.png)
 
 ## 🔧 Gebruikte Bronnen
 
 ### APIs
 - Open Trivia Database: https://opentdb.com/
 
-### Code Referenties
-- HTML Entity Decoding functie: ChatGPT gegenereerd (Lijn 281-285, main.js)
-- CSS Animatie voor difficulty section: AI-Bot assistentie (Lijn 126-135, style.css)
 
 ### Libraries & Tools
-- Vite: Build tool en development server
+- Vite: development server
 - Vanilla JavaScript: Geen externe frameworks gebruikt
 
+### AI gebruik
+- HTML Entity Decoding functie: ChatGPT gegenereerd (main.js)
+- Setup Theme Buttons : ChatGPT gegenereerd (main.js)
+- CSS Animatie voor difficulty section: AI-Bot assistentie (style.css)
+- Bij bepaalde errors heb ik gebruik gemaakt van de Github Copilot in VS code
 
-
+## Auteur
+Brend Van Den Eynde
