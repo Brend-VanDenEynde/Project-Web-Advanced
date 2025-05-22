@@ -175,6 +175,7 @@ npm run preview
 - CSS Animatie voor difficulty section: AI-Bot assistentie (style.css)
 - Bij bepaalde errors heb ik gebruik gemaakt van de Github Copilot in VS code
 - Design van de readme + ook bepaalde zaken binnen de readme geschreven
+- Animaties in de css. Gemaakt door Copilot
 
 ## Auteur
 Brend Van Den Eynde
