@@ -25,14 +25,14 @@ Qwestz is een moderne quiz applicatie waarin gebruikers kunnen kiezen uit versch
 
 ### Vereisten
 
-- Node.js (versie 14 of hoger)
+- Node.js (versie 18 of hoger)
 - NPM of Yarn package manager
 
 ### Installatie Stappen
 
 1. **Clone de repository**
 ```bash
-git clone [jouw-repository-url]
+git clone https://github.com/Brend-VanDenEynde/Project-Web-Advanced
 cd qwestz
 ```
 
@@ -59,69 +59,77 @@ npm run preview
 
 ## 🛠️ Technische Implementatie
 
-### DOM Manipulatie
+### 📦 DOM Manipulatie
 
 **Elementen selecteren:**
-- `document.getElementById()` - Lijn 25, 143, 198 (main.js)
-- `document.querySelectorAll()` - Lijn 156, 201, 294 (main.js)
+- `document.getElementById()` – Lijn **11**, **213**, **344** (`main.js`)
+- `document.querySelectorAll()` – Lijn **333**, **360** (`main.js`)
 
 **Elementen manipuleren:**
-- `innerHTML` - Lijn 33, 89, 149, 215 (main.js)
-- `classList.add/remove/toggle` - Lijn 15, 18, 32 (main.js)
+- `innerHTML` – Lijn **29**, **90**, **138**, **209**, **247**, **291** (`main.js`)
+- `classList.add/remove/toggle` – Lijn **9**, **13**, **335**, **339** (`main.js`)
 
 **Events koppelen:**
-- `addEventListener()` - Lijn 20, 143, 298, 316 (main.js)
+- `addEventListener()` – Lijn **16**, **213**, **345**, **361**, **388** (`main.js`)
 
-### Modern JavaScript
+---
 
-- **Constanten**: `const` gebruikt throughout - Lijn 8, 13, 67, 188 (main.js)
-- **Template literals**: `` `${}` `` syntax - Lijn 34-50, 90-97, 216-234 (main.js)
+### ⚙️ Modern JavaScript
+
+- **Constanten**: `const` gebruikt op o.a. lijn **6**, **10**, **11**, **333** (`main.js`)
+- **Template literals**: `` `${}` `` syntax – Lijn **29**, **92**, **209**, **246**, **291** (`main.js`)
 - **Array iteratie**:
-    - `forEach()` - Lijn 156, 201, 298 (main.js)
-    - `map()` - Lijn 244, 271 (main.js)
-- **Arrow functions**: `() => {}` - Lijn 20, 143, 159, 202 (main.js)
-- **Ternary operator**: `condition ? value1 : value2` - Lijn 131, 161 (main.js)
-- **Callback functions**: Event listeners - Lijn 143, 159, 298 (main.js)
-- **Promises**: `fetch().then()` - Lijn 104-115 (main.js)
-- **Async & Await**: `async/await` - Lijn 83, 104 (main.js)
+  - `forEach()` – Lijn **333**, **360**, **388** (`main.js`)
+  - `map()` – Lijn **246**, **251** (`main.js`)
+- **Arrow functions**: `() => {}` – Lijn **16**, **213**, **336**, **361**, **388** (`main.js`)
+- **Callback functions**: Gebruikt in event listeners – Lijn **213**, **336**, **388** (`main.js`)
+- **Async & Await**: `async/await` – Lijn **109–123** (`main.js`)
 
-### Observer API
+---
 
-**IntersectionObserver**: Scroll animations voor cards
-- Implementatie: Lijn [voeg toe na implementatie] (main.js)
-- Functionaliteit: Fade-in effect wanneer elementen in beeld komen
+### 📡 Data & API
 
-### Data & API
-
-**Fetch**: API calls naar Open Trivia Database
-- Implementatie: Lijn 104 (main.js)
-- Error handling: Lijn 116-118 (main.js)
+**Fetch & API calls (Open Trivia DB)**:
+- Fetch: Lijn **109** (`main.js`)
+- `res.json()` – Lijn **110** (`main.js`)
+- Foutafhandeling (`try/catch`) – Lijn **108–123** (`main.js`)
 
 **JSON manipulatie**:
-- `res.json()` - Lijn 105 (main.js)
-- `JSON.parse()` - Lijn 188, 237 (main.js)
-- `JSON.stringify()` - Lijn 193 (main.js)
+- `JSON.parse()` – Lijn **268**, **296** (`main.js`)
+- `JSON.stringify()` – Lijn **273** (`main.js`)
 
-### Opslag & Validatie
+---
+
+### 💾 Opslag & Validatie
 
 **LocalStorage**:
-- Theme opslag: Lijn 21, 25 (main.js)
-- Quiz geschiedenis: Lijn 188, 193 (main.js)
-- Gebruikersvoorkeuren: Lijn 310, 314 (main.js)
+- Thema opslag: Lijn **11**, **339** (`main.js`)
+- Quiz geschiedenis: Lijn **268**, **273** (`main.js`)
+- Gebruikersvoorkeuren: Lijn **344**, **345** (`main.js`)
 
 **Formulier validatie**:
-- Theme/difficulty check: Lijn 85-87 (main.js)
-- Input validatie: Lijn 260-267 (main.js)
+- Thema/difficulty check bij ontbreken: Lijn **99–101** (`main.js`)
+- Input validatie (filteren op resultaten): Lijn **361–366** (`main.js`)
 
-### Styling & Layout
+---
+
+### 🎨 Styling & Layout
 
 **Flexbox Layout**:
-- Main layout: Lijn 7-15 (style.css)
-- Card layout: Lijn 88-96 (style.css)
+- Hoofdlayout (`body`): Lijn **1–9** (`style.css`)
+- Quizvragen (`.answers`): Lijn **109–111** (`style.css`)
 
-**CSS Transitions**: Lijn 6, 27, 65 (style.css)  
-**Responsive Design**: Lijn 92, 200-210 (style.css)  
-**Dark Mode**: Lijn 14-17, 29-32 (style.css)
+**CSS Transitions**:
+- Toegepast op: `body`, `.app-btn`, `.card`, `#dark-mode-toggle`, `.footer`, `#difficulty-section`  
+- Lijnen **4**, **16**, **33**, **55**, **68**, **89** (`style.css`)
+
+**Responsive Design**:
+- Percentagebreedtes en flexbox: Lijn **10–14**, **54–56** (`style.css`)
+
+**Dark Mode**:
+- Implementatie voor body, knoppen, kaarten, footer:  
+- Lijn **17–18**, **22–23**, **38–40**, **57–60**, **72–75** (`style.css`)
+
 
 ### Tooling & Structuur
 
@@ -159,7 +167,7 @@ npm run preview
 
 ### Libraries & Tools
 - Vite: development server
-- Vanilla JavaScript: Geen externe frameworks gebruikt
+- Vanilla JavaScript: Geen externe framework gebruikt
 
 ### AI gebruik
 - HTML Entity Decoding functie: ChatGPT gegenereerd (main.js)
