@@ -50,7 +50,7 @@ body.dark .app-btn {
     cursor: pointer;
 }
 
-
+/* Voor de thema kmop te laten opvallen als je erop druk */
 .theme-btn.selected {
     transform: scale(1.1);
     background-color: #d0eaff;
@@ -174,4 +174,9 @@ body.dark .card table {
 
 body.dark .card tr {
     border-color: #444;
+}
+
+#clearHistory {
+    background-color: red;
+    color: white;
 }

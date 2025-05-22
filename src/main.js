@@ -13,7 +13,7 @@ const routes = {
 
 const router = new Router(routes);
 
-// Zaken voor Darkmode
+// functie om dark mode in te stellen
 function setupDarkModeToggle() {
   const toggleBtn = document.getElementById('dark-mode-toggle');
   const isDark = localStorage.getItem('theme') === 'dark';
@@ -34,8 +34,8 @@ function setupDarkModeToggle() {
     }
   });
 }
-// renderpagina's functies
 
+// renderpagina's functies
 
 // render van de homepagina
 function renderHome(container) {
@@ -71,8 +71,6 @@ function renderHome(container) {
 }
 
 // render van de quizpagina
-
-
 async function renderQuiz(container) {
   document.body.classList.add('quiz');
   const theme = localStorage.getItem('selectedTheme');
@@ -125,7 +123,7 @@ async function renderQuiz(container) {
 }
 
 
-
+// functie om de quiz te starten
 function startQuiz(container, questions) {
   let current = 0;
   let score = 0;
@@ -160,8 +158,8 @@ function startQuiz(container, questions) {
     });
   }
 
+  // Huidige resultaat opslaan
   function showResult() {
-    // Huidige resultaat opslaan
     const results = JSON.parse(localStorage.getItem('quizHistory')) || [];
     results.push({
       theme: localStorage.getItem('selectedTheme'),
@@ -236,17 +234,21 @@ function renderHistory(container) {
           </tbody>
         </table>
         <button class="app-btn" onclick="window.location.hash = '#/'">Terug naar home</button>
+        <button class="app-btn" id='clearHistory'>Verwijder geschiedenis</button>
       </div>
       <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
     `;
+    document.getElementById('clearHistory')?.addEventListener('click', () => {
+      localStorage.removeItem('quizHistory');
+      window.location.reload(); // of renderHistory opnieuw aanroepen
+    });
+
   }
 
   setupDarkModeToggle();
 }
 
-
-
-
+// Decodeert HTML-entiteiten naar hun originele tekens (bijv. &amp; → &) Door ChatGPT
 function decodeHTML(html) {
   const txt = document.createElement('textarea');
   txt.innerHTML = html;
