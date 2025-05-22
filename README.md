@@ -166,6 +166,7 @@ npm run preview
 - Setup Theme Buttons : ChatGPT gegenereerd (main.js)
 - CSS Animatie voor difficulty section: AI-Bot assistentie (style.css)
 - Bij bepaalde errors heb ik gebruik gemaakt van de Github Copilot in VS code
+- Design van de readme + ook bepaalde zaken binnen de readme geschreven
 
 ## Auteur
 Brend Van Den Eynde
