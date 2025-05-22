@@ -1,3 +1,5 @@
+'use strict';
+
 // importeer van de router
 import Router from './router.js';
 // importeer de CSS
@@ -37,26 +39,30 @@ function setupDarkModeToggle() {
 
 // renderpagina's functies
 
-// render van de homepagina
+// render van de homepagina// render van de homepagina
 function renderHome(container) {
   document.body.classList.remove('quiz');
 
   container.innerHTML = `
     <div class="card">
-      <h1>Kies een thema</h1>
+      <h1>Choose a theme</h1>
       <div class="themes">
         <button class="theme-btn app-btn" data-theme="computer">💻 Computer</button>
         <button class="theme-btn app-btn" data-theme="sport">⚽ Sport</button>
+        <button class="theme-btn app-btn" data-theme="boeken">📚 Books</button>
+        <button class="theme-btn app-btn" data-theme="films">🎬 Movies</button>
+        <button class="theme-btn app-btn" data-theme="muziek">🎵 Music</button>
+        <button class="theme-btn app-btn" data-theme="geschiedenis">🏺 History</button>
       </div>
 
       <div id="difficulty-section">
-        <h2>Kies moeilijkheidsgraad</h2>
+        <h2>Choose difficulty</h2>
         <button class="diff-btn app-btn">Easy</button>
         <button class="diff-btn app-btn">Medium</button>
         <button class="diff-btn app-btn">Hard</button>
       </div>
 
-      <button id="history-btn" class="app-btn">📚 Vorige Quizzen</button>
+      <button id="history-btn" class="app-btn">📚 Previous Quizzes</button>
     </div>
 
     <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
@@ -83,12 +89,24 @@ async function renderQuiz(container) {
   else if (theme == 'sport') {
     category = 21;
   }
+  else if (theme == 'boeken') {
+    category = 10;
+  }
+  else if (theme == 'films') {
+    category = 11;
+  }
+  else if (theme == 'muziek') {
+    category = 12;
+  }
+  else if (theme == 'geschiedenis') {
+    category = 23;
+  }
 
   if (category == null || difficulty == null) {
     container.innerHTML = `
       <div class="card">
-        <h1>Geen thema of moeilijkheidsgraad gekozen</h1>
-        <a href="#/">Terug naar home</a>
+        <h1>No theme or difficulty selected</h1>
+        <a href="#/">Back to home</a>
       </div>
       <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
     `;
@@ -99,7 +117,7 @@ async function renderQuiz(container) {
 
     container.innerHTML = `
       <div id="quiz" class="card">
-        <h2>Quiz wordt geladen...</h2>
+        <h2>Loading quiz...</h2>
       </div>
       <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
     `;
@@ -111,17 +129,16 @@ async function renderQuiz(container) {
       const data = await res.json();
 
       if (data.results.length == 0) {
-        container.innerHTML = `<div class="card"><p>Geen vragen gevonden.</p></div>`;
+        container.innerHTML = `<div class="card"><p>No questions found.</p></div>`;
         return;
       }
 
       startQuiz(container, data.results);
     } catch (error) {
-      container.innerHTML = `<div class="card"><p>Fout bij laden van quizvragen.</p></div>`;
+      container.innerHTML = `<div class="card"><p>Error loading quiz questions.</p></div>`;
     }
   }
 }
-
 
 // functie om de quiz te starten
 function startQuiz(container, questions) {
@@ -136,7 +153,7 @@ function startQuiz(container, questions) {
 
     container.innerHTML = `
       <div class="card">
-        <h2>Vraag ${current + 1} van ${questions.length}</h2>
+        <h2>Question ${current + 1} of ${questions.length}</h2>
         <p>${decodeHTML(q.question)}</p>
         <div class="answers">
           ${answers.map(ans => `<button class="app-btn answer">${decodeHTML(ans)}</button>`).join('')}
@@ -172,9 +189,9 @@ function startQuiz(container, questions) {
 
     container.innerHTML = `
       <div class="card">
-        <h2>Quiz voltooid!</h2>
-        <p>Je score: ${score} / ${questions.length}</p>
-        <button class="app-btn" onclick="window.location.hash = '#'">Terug naar start</button>
+        <h2>Quiz completed!</h2>
+        <p>Your score: ${score} / ${questions.length}</p>
+        <button class="app-btn" onclick="window.location.hash = '#'">Back to start</button>
       </div>
       <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
     `;
@@ -188,8 +205,8 @@ function startQuiz(container, questions) {
 function renderNotFound(container) {
   container.innerHTML = `
     <div class="card">
-      <h1>404 - Pagina niet gevonden</h1>
-      <a href="#/">Terug naar home</a>
+      <h1>404 - Page not found</h1>
+      <a href="#/">Back to home</a>
     </div>
     <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
   `;
@@ -204,21 +221,23 @@ function renderHistory(container) {
   if (results.length === 0) {
     container.innerHTML = `
       <div class="card">
-        <h2>Geen eerdere quizzen gevonden.</h2>
-        <a href="#/">Terug naar home</a>
+        <h2>No previous quizzes found.</h2>
+        <a href="#/">Back to home</a>
       </div>
       <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
     `;
   } else {
     container.innerHTML = `
       <div class="card">
-        <h2>Vorige quizresultaten</h2>
+        <h2>Previous quiz results</h2>
+        <input type="text" id="filter-input" placeholder="Filter by theme or difficulty..." style="width: 100%; padding: 8px; margin-bottom: 12px; border-radius: 8px; border: 1px solid #ccc;" />
+
         <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
           <thead>
             <tr style="text-align: left; border-bottom: 2px solid #ccc;">
-              <th>Datum</th>
-              <th>Thema</th>
-              <th>Moeilijkheid</th>
+              <th>Date</th>
+              <th>Theme</th>
+              <th>Difficulty</th>
               <th>Score</th>
             </tr>
           </thead>
@@ -233,20 +252,30 @@ function renderHistory(container) {
             `).join('')}
           </tbody>
         </table>
-        <button class="app-btn" onclick="window.location.hash = '#/'">Terug naar home</button>
-        <button class="app-btn" id='clearHistory'>Verwijder geschiedenis</button>
+        <button class="app-btn" onclick="window.location.hash = '#/'">Back to home</button>
+        <button class="app-btn" id='clearHistory'>Clear history</button>
       </div>
       <button id="dark-mode-toggle" class="dark-mode-btn">🌗</button>
     `;
     document.getElementById('clearHistory')?.addEventListener('click', () => {
       localStorage.removeItem('quizHistory');
-      window.location.reload(); // of renderHistory opnieuw aanroepen
+      window.location.reload();
+    });
+    document.getElementById('filter-input').addEventListener('input', (e) => {
+      const value = e.target.value.toLowerCase();
+      const rows = container.querySelectorAll('tbody tr');
+
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(value) ? '' : 'none';
+      });
     });
 
   }
 
   setupDarkModeToggle();
 }
+
 
 // Decodeert HTML-entiteiten naar hun originele tekens (bijv. &amp; → &) Door ChatGPT
 function decodeHTML(html) {
